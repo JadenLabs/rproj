@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+
+[project]
+name = "rproj"
+version = "0.1.0"
+description = "A simple project management tool"
+license = "MIT"
+dependencies = ["rich", "toml", "argparse", "appdirs"]
+
+[project.scripts]
+rproj = "rproj.cli:main"
