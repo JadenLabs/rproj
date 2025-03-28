@@ -1,0 +1,10 @@
+[info]
+project_name = "rproj"
+description = "a project management tool"
+
+[file]
+directory = "C:\\Users\\Jaden\\Coding\\rproj"
+path = "C:\\Users\\Jaden\\Coding\\rproj\\.rproj"
+
+[other]
+github = ""
