@@ -3,10 +3,10 @@ import json
 import argparse
 from rproj import log, FILE_EXTENSION
 from rproj.checks import check_project_exists, check_directory_exists
-from rproj.file import (
-    RProjFile,
-    validate_project_data_file,
+from rproj.file import RProjFile
+from rproj.projects import (
     add_project_to_projects,
+    validate_project_data_file,
     PROJECT_DATA_PATH,
 )
 from rproj.info import list_projects, search_project
