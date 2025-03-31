@@ -38,6 +38,12 @@ def get_args():
         Command("code", "Open project in VSC", ["vsc"], ["name"]),
         Command("file", "Open project in file explorer", ["explorer"], ["name"]),
         Command("debug", "Debug the project", [], ["operation"]),
+
+        # TODO add update
+        # TODO add zip
+        # TODO add unzip (and unzip add to projects)
+        # TODO add git clone support (maybe using pipe?)
+        # TODO add run project
     ]
 
     for cmd in commands:
