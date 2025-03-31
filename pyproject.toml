@@ -9,4 +9,4 @@ license = "MIT"
 dependencies = ["rich", "toml", "argparse", "appdirs"]
 
 [project.scripts]
-rproj = "rproj.cli:main"
+rproj = "rproj.main:main"

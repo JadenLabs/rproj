@@ -1,4 +1,4 @@
-from rproj.cli import main
+from rproj.main import main
 
 if __name__ == "__main__":
     main()
