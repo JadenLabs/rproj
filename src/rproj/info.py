@@ -2,6 +2,7 @@ import json
 from rich import print
 from rproj.file import RProjFile, PROJECT_DATA_PATH
 
+
 def load_projects():
     with open(PROJECT_DATA_PATH, "r") as file:
         project_paths = json.loads(file.read())
@@ -33,7 +34,3 @@ def search_project(name: str = None):
             return project
 
     return False
-
-
-if __name__ == "__main__":
-    list_projects()
