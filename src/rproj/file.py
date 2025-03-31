@@ -45,6 +45,35 @@ def validate_project_data_file():
                 return False
 
 
+def add_project_to_projects(project):
+    # Get a list of all project paths
+    with open(PROJECT_DATA_PATH, "r") as file:
+        project_paths = json.loads(file.read()) or []
+
+    # Add the new project path to the list
+    project_paths.append(project.path)
+    project_paths = list(set(project_paths))
+
+    # Update the project data file
+    with open(PROJECT_DATA_PATH, "w") as file:
+        file.write(json.dumps(project_paths))
+
+    log.info(f"Added project {project.project_name} to projects")
+
+
+def remove_project_from_projects(project):
+    # Get a list of all project paths
+    with open(PROJECT_DATA_PATH, "r") as file:
+        project_paths: list = json.loads(file.read())
+        project_paths.remove(project.path)
+
+    # Update the project data file
+    with open(PROJECT_DATA_PATH, "w") as file:
+        file.write(json.dumps(project_paths))
+
+    log.info(f"Removed project {project.project_name} from projects")
+
+
 class RProjFile:
     def load(path):
         with open(path, "r") as file:
@@ -82,6 +111,7 @@ class RProjFile:
         self.kwargs = kwargs
 
     def create(self):
+        # Structure data and load into toml
         data = {
             "info": {
                 "project_name": self.project_name,
@@ -98,16 +128,11 @@ class RProjFile:
         data["other"].update(self.kwargs)
         data_str = toml.dumps(data)
 
+        # Write to project file
         with open(self.path, "w") as file:
             file.write(data_str)
 
-        # update project data file
-        with open(PROJECT_DATA_PATH, "r") as file:
-            project_paths = json.loads(file.read()) or []
-            project_paths.append(self.path)
-            project_paths = list(set(project_paths))  # remove duplicates
-        with open(PROJECT_DATA_PATH, "w") as file:
-            file.write(json.dumps(project_paths))
+        add_project_to_projects(self)  # update projects.json
 
         return True
 
@@ -116,13 +141,7 @@ class RProjFile:
             os.remove(self.path)
         else:
             raise FileNotFoundError("File not found")
-
-        # update project data file
-        with open(PROJECT_DATA_PATH, "r") as file:
-            project_paths: list = json.loads(file.read())
-            project_paths.remove(self.path)
-        with open(PROJECT_DATA_PATH, "w") as file:
-            file.write(json.dumps(project_paths))
+        remove_project_from_projects(self)  # update projects.json
 
     def __str__(self) -> str:
         description = f" | `{self.description}`" if self.description else ""
