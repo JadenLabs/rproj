@@ -3,7 +3,7 @@ requires = ["setuptools", "wheel"]
 
 [project]
 name = "rproj"
-version = "0.1.0"
+version = "0.2.0"
 description = "A simple project management tool"
 license = "MIT"
 dependencies = ["rich", "toml", "argparse", "appdirs"]

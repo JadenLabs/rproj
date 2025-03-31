@@ -1,46 +1,7 @@
 import os
 import toml
-import json
-from appdirs import user_data_dir
-from rproj import log, FILE_EXTENSION
-
-
-def get_project_data_path():
-    """Get the path to the project data file using appdirs."""
-    data_dir = user_data_dir(appname="rproj", appauthor="JadenLabs")
-    os.makedirs(data_dir, exist_ok=True)
-    return os.path.join(data_dir, "projects.json")
-
-PROJECT_DATA_PATH = get_project_data_path()
-
-def reset_project_data_file():
-    with open(PROJECT_DATA_PATH, "w") as file:
-        log.warn("Resetting project data file")
-        file.write(json.dumps([]))
-        return True
-
-
-def validate_project_data_file():
-    if not os.path.exists(PROJECT_DATA_PATH):
-        log.warn("Project data file not found")
-        reset_project_data_file()
-        return True
-    elif os.path.getsize(PROJECT_DATA_PATH) == 0:
-        log.warn("No project data found")
-        reset_project_data_file()
-        return True
-
-    with open(PROJECT_DATA_PATH, "r") as file:
-        file = file.read()
-        if file != "[]":
-            try:
-                json.loads(file)
-            except json.JSONDecodeError:
-                log.warn("Could not read project data file")
-                reset_project_data_file()
-                return True
-            else:
-                return False
+from rproj import FILE_EXTENSION
+from rproj.projects import add_project_to_projects, remove_project_from_projects
 
 
 class RProjFile:
@@ -80,6 +41,7 @@ class RProjFile:
         self.kwargs = kwargs
 
     def create(self):
+        # Structure data and load into toml
         data = {
             "info": {
                 "project_name": self.project_name,
@@ -96,16 +58,11 @@ class RProjFile:
         data["other"].update(self.kwargs)
         data_str = toml.dumps(data)
 
+        # Write to project file
         with open(self.path, "w") as file:
             file.write(data_str)
 
-        # update project data file
-        with open(PROJECT_DATA_PATH, "r") as file:
-            project_paths = json.loads(file.read()) or []
-            project_paths.append(self.path)
-            project_paths = list(set(project_paths))  # remove duplicates
-        with open(PROJECT_DATA_PATH, "w") as file:
-            file.write(json.dumps(project_paths))
+        add_project_to_projects(self)  # update projects.json
 
         return True
 
@@ -114,13 +71,7 @@ class RProjFile:
             os.remove(self.path)
         else:
             raise FileNotFoundError("File not found")
-
-        # update project data file
-        with open(PROJECT_DATA_PATH, "r") as file:
-            project_paths: list = json.loads(file.read())
-            project_paths.remove(self.path)
-        with open(PROJECT_DATA_PATH, "w") as file:
-            file.write(json.dumps(project_paths))
+        remove_project_from_projects(self)  # update projects.json
 
     def __str__(self) -> str:
         description = f" | `{self.description}`" if self.description else ""
@@ -135,12 +86,3 @@ class RProjFile:
         )
         github = f"\n{padding}[black]github:[/] {self.github}" if self.github else ""
         return f"{prefix}{self.project_name} @ [yellow]{self.directory}[/]{description}{github}"
-
-
-if __name__ == "__main__":
-    # * run as `python -m utils.file`
-    file = RProjFile("test", "testing/", "test", "test")
-    file.create()
-
-    file = RProjFile.load("testing/.rproj")
-    print(file.project_name)

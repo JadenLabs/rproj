@@ -2,7 +2,13 @@ import os
 import json
 import argparse
 from rproj import log, FILE_EXTENSION
-from rproj.file import RProjFile, validate_project_data_file, PROJECT_DATA_PATH
+from rproj.checks import check_project_exists, check_directory_exists, check_project_already_exists
+from rproj.file import RProjFile
+from rproj.projects import (
+    add_project_to_projects,
+    validate_project_data_file,
+    PROJECT_DATA_PATH,
+)
 from rproj.info import list_projects, search_project
 from rproj.launching import launch_vsc, launch_file_explorer
 
@@ -21,7 +27,7 @@ def get_args():
     )
     create_parser.add_argument("name", help="Name of the project")
     create_parser.add_argument(
-        "directory", help="Path to the project directory enclosed in double-quotes"
+        "directory", help="Path to the project directory enclosed in quotes"
     )
     create_parser.add_argument(
         "-desc",
@@ -71,16 +77,8 @@ def get_args():
 
     return parser.parse_args()
 
-
+@check_project_already_exists
 def handle_create(args: argparse.Namespace):
-    # check if name and directory provided
-    if not args.name or not args.directory:
-        log.err("Please provide a name and directory for the project")
-        return
-    if search_project(args.name):
-        log.err("Project name already exists")
-        return
-
     log.info("Creating project...")
     description = " ".join(args.description) if args.description else ""
 
@@ -90,83 +88,48 @@ def handle_create(args: argparse.Namespace):
     project.create()
 
 
+@check_directory_exists
 def handle_add(args: argparse.Namespace):
-    if not args.directory:
-        log.err("Please provide a directory for the project")
-        return
-    if not os.path.exists(args.directory):
-        log.err("Directory does not exist")
-        return
-
     log.info("Adding project...")
     path = os.path.abspath(os.path.join(args.directory, FILE_EXTENSION))
     try:
         project = RProjFile.load(path)
     except FileNotFoundError:
         log.err("Project file not found")
+        return
 
     if search_project(project.project_name):
         log.err("Project name already exists")
         return
 
-    with open(PROJECT_DATA_PATH, "r") as file:
-        project_paths = json.loads(file.read()) or []
-        project_paths.append(project.path)
-        project_paths = list(set(project_paths))
-    with open(PROJECT_DATA_PATH, "w") as file:
-        file.write(json.dumps(project_paths))
+    add_project_to_projects(project)
 
 
+@check_project_exists
 def handle_delete(args: argparse.Namespace):
-    if not args.name:
-        log.err("Please provide a name for the project")
-        return
-
     log.info("Deleting project...")
     project = search_project(args.name)
-    if project is False:
-        log.err("Project not found")
-        return
     project.delete()
 
 
+@check_project_exists
 def handle_search(args: argparse.Namespace):
-    if not args.name:
-        log.err("Please provide a name for the project")
-        return
-
     log.info("Searching project...")
     project = search_project(args.name)
-    if project is False:
-        log.err("Project not found")
-        return
     print(project)
 
 
+@check_project_exists
 def handle_code(args: argparse.Namespace):
-    if not args.name:
-        log.err("Please provide a name for the project")
-        return
-
     log.info("Opening project in VSC...")
     project = search_project(args.name)
-    if project is False:
-        log.err("Project not found")
-        return
     launch_vsc(project.directory)
 
 
+@check_project_exists
 def handle_file_explorer(args: argparse.Namespace):
-    if not args.name:
-        log.err("Please provide a name for the project")
-        return
-
     log.info("Opening project in file explorer...")
     project = search_project(args.name)
-    if project is False:
-        log.err("Project not found")
-        return
-
     launch_file_explorer(project.directory)
 
 
