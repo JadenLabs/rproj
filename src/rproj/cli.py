@@ -2,7 +2,11 @@ import os
 import json
 import argparse
 from rproj import log, FILE_EXTENSION
-from rproj.checks import check_project_exists, check_directory_exists, check_project_already_exists
+from rproj.checks import (
+    check_project_exists,
+    check_directory_exists,
+    check_project_already_exists,
+)
 from rproj.file import RProjFile
 from rproj.projects import (
     add_project_to_projects,
@@ -76,6 +80,7 @@ def get_args():
     )
 
     return parser.parse_args()
+
 
 @check_project_already_exists
 def handle_create(args: argparse.Namespace):
