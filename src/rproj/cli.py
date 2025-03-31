@@ -1,5 +1,4 @@
 import os
-import json
 import argparse
 from rproj import log, FILE_EXTENSION
 from rproj.checks import (
