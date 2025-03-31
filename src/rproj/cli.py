@@ -2,7 +2,7 @@ import os
 import json
 import argparse
 from rproj import log, FILE_EXTENSION
-from rproj.checks import check_project_exists, check_directory_exists
+from rproj.checks import check_project_exists, check_directory_exists, check_project_already_exists
 from rproj.file import RProjFile
 from rproj.projects import (
     add_project_to_projects,
@@ -77,16 +77,8 @@ def get_args():
 
     return parser.parse_args()
 
-
+@check_project_already_exists
 def handle_create(args: argparse.Namespace):
-    # check if name and directory provided
-    if not args.name or not args.directory:
-        log.err("Please provide a name and directory for the project")
-        return
-    if search_project(args.name):
-        log.err("Project name already exists")
-        return
-
     log.info("Creating project...")
     description = " ".join(args.description) if args.description else ""
 
