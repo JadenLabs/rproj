@@ -50,6 +50,7 @@ Commands:
 
 -   `create (c, make)`: Create a new project
 -   `add (a)`: Add an existing project file
+-   `update (u)`: Update info on a project
 -   `delete (d, del, rm, remove)`: Delete a project
 -   `list (l, li, all)`: List all projects
 -   `search (s, find, fetch)`: Search for a project

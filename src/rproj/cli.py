@@ -33,7 +33,7 @@ def get_args():
         ),
         Command(
             "update",
-            "Update the project",
+            "Update info on a project",
             ["u"],
             [
                 "name",
