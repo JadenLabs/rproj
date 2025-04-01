@@ -14,6 +14,7 @@ from rproj.handlers import (
     handle_dir,
     handle_terminal,
     handle_run,
+    handle_tree,
 )
 
 COMMAND_HANDLERS = {
@@ -44,6 +45,8 @@ COMMAND_HANDLERS = {
     "ter": handle_terminal,
     "run": handle_run,
     "r": handle_run,
+    "tree": handle_tree,
+    "tr": handle_tree,
 }
 
 
