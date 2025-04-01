@@ -100,6 +100,22 @@ def handle_terminal(args):
     launch_terminal(search_project(args.name).directory, terminal_type)
 
 
+@check_project_exists
+def handle_run(args):
+    """Runs the project."""
+    log.info("Running project...")
+    project = search_project(args.name)
+    if not project.run_cmd:
+        log.err("No run command found in project")
+        return
+
+    launch_terminal(
+        search_project(args.name).directory,
+        args.t or "ps",
+        command=project.run_cmd,
+    )
+
+
 def handle_debug(args):
     """Handles debugging commands."""
     if args.operation == "projects":
