@@ -39,16 +39,23 @@ def get_args():
                 "name",
                 "--project_name",
                 "--github",
+                "--run",
                 ("--description", {"nargs": argparse.REMAINDER}),
             ],
         ),
         Command("add", "Add an existing project file", ["a"], ["directory"]),
         Command("delete", "Delete a project", ["d", "del", "rm", "remove"], ["name"]),
         Command("list", "List all projects", ["l", "li", "all"], []),
-        Command("search", "Search for a project", ["s", "find", "fetch", "info"], ["name"]),
+        Command(
+            "search", "Search for a project", ["s", "find", "fetch", "info"], ["name"]
+        ),
         Command("code", "Open project in VSC", ["vsc"], ["name"]),
         Command("file", "Open project in file explorer", ["explorer"], ["name"]),
         Command("debug", "Debug the project", [], ["operation"]),
+        Command("dir", "Print dir of project", [], ["name"]),
+        Command(
+            "terminal", "Open terminal in project", ["ter"], ["name", "--type", "-t"]
+        ),
 
         # TODO add zip
         # TODO add unzip (and unzip add to projects)

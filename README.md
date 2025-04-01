@@ -26,7 +26,7 @@ A simple project management tool because I have a ton of folders of code and nee
     or, to get a specific release:
     ```bash
     pipx install https://github.com/JadenLabs/rproj/archive/refs/tags/{release}.zip
-    pipx install https://github.com/JadenLabs/rproj/archive/refs/tags/v0.2.1.zip
+    pipx install https://github.com/JadenLabs/rproj/archive/refs/tags/v0.2.2.zip
     ```
 
 #### With pip
@@ -56,6 +56,8 @@ Commands:
 -   `search (s, find, fetch)`: Search for a project
 -   `code (vsc)`: Open project in VSC
 -   `file (explorer)`: Open project in file explorer
+-   `dir`: Print the project's directory
+-   `terminal (ter)`: Open a terminal of the project
 
 ## Contributing
 
