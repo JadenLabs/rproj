@@ -23,7 +23,7 @@ def load_projects():
 def list_projects():
     """List all projects in the projects.json file"""
     projects = load_projects()
-    for i, project in enumerate(projects):
+    for i, project in enumerate(projects, start=1):
         print(project.list_view(i))
 
 
