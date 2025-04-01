@@ -11,6 +11,8 @@ from rproj.handlers import (
     handle_file_explorer,
     handle_debug,
     handle_update,
+    handle_dir,
+    handle_terminal,
 )
 
 COMMAND_HANDLERS = {
@@ -35,7 +37,10 @@ COMMAND_HANDLERS = {
     "vsc": handle_code,
     "file": handle_file_explorer,
     "explorer": handle_file_explorer,
+    "dir": handle_dir,
     "debug": handle_debug,
+    "terminal": handle_terminal,
+    "ter": handle_terminal,
 }
 
 
