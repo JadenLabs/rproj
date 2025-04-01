@@ -43,6 +43,7 @@ COMMAND_HANDLERS = {
     "terminal": handle_terminal,
     "ter": handle_terminal,
     "run": handle_run,
+    "r": handle_run,
 }
 
 
