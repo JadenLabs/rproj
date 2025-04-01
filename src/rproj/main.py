@@ -30,6 +30,7 @@ COMMAND_HANDLERS = {
     "s": handle_search,
     "find": handle_search,
     "fetch": handle_search,
+    "info": handle_search,
     "code": handle_code,
     "vsc": handle_code,
     "file": handle_file_explorer,

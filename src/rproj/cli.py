@@ -45,10 +45,11 @@ def get_args():
         Command("add", "Add an existing project file", ["a"], ["directory"]),
         Command("delete", "Delete a project", ["d", "del", "rm", "remove"], ["name"]),
         Command("list", "List all projects", ["l", "li", "all"], []),
-        Command("search", "Search for a project", ["s", "find", "fetch"], ["name"]),
+        Command("search", "Search for a project", ["s", "find", "fetch", "info"], ["name"]),
         Command("code", "Open project in VSC", ["vsc"], ["name"]),
         Command("file", "Open project in file explorer", ["explorer"], ["name"]),
         Command("debug", "Debug the project", [], ["operation"]),
+
         # TODO add zip
         # TODO add unzip (and unzip add to projects)
         # TODO add git clone support (maybe using pipe?)
