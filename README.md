@@ -8,6 +8,8 @@ A simple project management tool because I have a ton of folders of code and nee
 
 -   Keep track of your projects
 -   Open projects quickly in VSC or file explorer - just type the name
+-   Open a terminal for your project fast
+-   Run code for your projects easily
 
 ## Installation
 
