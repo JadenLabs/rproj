@@ -2,6 +2,26 @@ import argparse
 
 
 class Command:
+    """
+    Represents a command.
+
+    Args:
+        name (str): The name of the command.
+        help_text (str): A description of the command.
+        aliases (list[str], optional): Alternative names for the command. Defaults to an empty list.
+        args (list[str | tuple], optional): Arguments for the command. Defaults to an empty list.
+
+    Example:
+        ```
+        command = Command(
+            name="name",
+            help_text="description",
+            aliases=["n"],
+            args=["name", ("--advanced-arg", {"kwarg": value})],
+        )
+        ```
+    """
+
     def __init__(
         self,
         name: str,
@@ -16,7 +36,18 @@ class Command:
 
 
 def get_args():
-    """Get command line arguments"""
+    """
+    Parse and return command-line arguments for the rproj CLI.\n
+    ---
+
+    This function sets up the argument parser.\n
+    Each subcommand may have its own set of arguments, including positional and
+    optional arguments. Aliases are also provided for some subcommands.
+    Returns:
+        argparse.Namespace: Parsed command-line arguments.
+    """
+
+    # Create the main argument parser
     parser = argparse.ArgumentParser(
         prog="rproj", description="Create, manage, and view your projects"
     )
@@ -56,18 +87,19 @@ def get_args():
         Command(
             "terminal", "Open terminal in project", ["ter"], ["name", "--type", "-t"]
         ),
-
         # TODO add zip
         # TODO add unzip (and unzip add to projects)
         # TODO add git clone support (maybe using pipe?)
         # TODO add run project
     ]
 
+    # Add each command to the parser
     for cmd in commands:
         parser_cmd = subparsers.add_parser(
             cmd.name, aliases=cmd.aliases, help=cmd.help_text
         )
 
+        # Add arguments for the command
         if cmd.args:
             for arg in cmd.args:
                 if isinstance(arg, str):
