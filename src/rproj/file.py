@@ -1,5 +1,6 @@
 import os
 import toml
+from rich import print
 from rproj import FILE_EXTENSION
 from rproj.projects import add_project_to_projects, remove_project_from_projects
 
@@ -31,6 +32,7 @@ class RProjFile:
         directory: str,
         description: str = "",
         github: str = "",
+        run_cmd: str = "",
         **kwargs,
     ) -> None:
         self.project_name = project_name
@@ -38,28 +40,15 @@ class RProjFile:
         self.path = os.path.abspath(os.path.join(directory, FILE_EXTENSION))
         self.description = description
         self.github = github
+        self.run_cmd = run_cmd
         self.kwargs = kwargs
 
         if "path" in kwargs:
             del kwargs["path"]
 
     def create(self):
-        # Structure data and load into toml
-        data = {
-            "info": {
-                "project_name": self.project_name,
-                "description": self.description,
-            },
-            "file": {
-                "directory": self.directory,
-                "path": self.path,
-            },
-            "other": {
-                "github": self.github,
-            },
-        }
-        data["other"].update(self.kwargs)
-        data_str = toml.dumps(data)
+        # Load data into TOML format
+        data_str = toml.dumps(self.as_dict())
 
         # Write to project file
         with open(self.path, "w") as file:
@@ -73,21 +62,7 @@ class RProjFile:
         if hasattr(self, field):
             setattr(self, field, value)
             # Update the project file
-            data = {
-                "info": {
-                    "project_name": self.project_name,
-                    "description": self.description,
-                },
-                "file": {
-                    "directory": self.directory,
-                    "path": self.path,
-                },
-                "other": {
-                    "github": self.github,
-                },
-            }
-            data["other"].update(self.kwargs)
-            data_str = toml.dumps(data)
+            data_str = toml.dumps(self.as_dict())
 
             with open(self.path, "w") as file:
                 file.write(data_str)
@@ -107,6 +82,40 @@ class RProjFile:
         description = f" | `{self.description}`" if self.description else ""
         github = f" | `{self.github}`" if self.github else ""
         return f"{self.project_name} @ {self.directory}{description}{github}"
+
+    def print_details(self):
+        lines = [
+            f"[bright_blue]Project Name:[/] {self.project_name}",
+            (
+                f"[bright_blue]Description:[/] [bright_black]{self.description}[/]"
+                if self.description
+                else ""
+            ),
+            f"[bright_blue]Directory:[/] [yellow]{self.directory}[/]",
+            f"[bright_blue]Path:[/] [yellow]{self.path}[/]",
+            f"[bright_blue]GitHub:[/] {self.github}" if self.github else "",
+            f"[bright_blue]Run Command:[/] {self.run_cmd}" if self.run_cmd else "",
+        ]
+        print("\n".join(line for line in lines if line))
+
+    def as_dict(self):
+        data = {
+            "info": {
+                "project_name": self.project_name,
+                "description": self.description,
+            },
+            "file": {
+                "directory": self.directory,
+                "path": self.path,
+            },
+            "other": {
+                "github": self.github,
+                "run_cmd": self.run_cmd,
+            },
+        }
+        data["other"].update(self.kwargs)
+
+        return data
 
     def list_view(self, i: int = None):
         prefix = f"{i}. " if i is not None else "- "
