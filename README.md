@@ -48,17 +48,59 @@ A simple project management tool because I have a ton of folders of code and nee
 
 Commands:
 
--   `create (c, make)`: Create a new project
--   `add (a)`: Add an existing project file
--   `update (u)`: Update info on a project
--   `delete (d, del, rm, remove)`: Delete a project
--   `list (l, li, all)`: List all projects
--   `search (s, find, fetch)`: Search for a project
--   `code (vsc)`: Open project in VSC
--   `file (explorer)`: Open project in file explorer
--   `dir`: Print the project's directory
--   `terminal (ter)`: Open a terminal of the project
--   `run (r)`: Run the run_cmd attribute of the project
+-   **create (c, make)**: Create a new project
+    ```bash
+    rproj create NAME ./DIR
+    rproj create NAME ./DIR --description a pretty cool project
+    rproj create NAME ./DIR --github "https://github.com/example/example"
+    rproj create NAME ./DIR --run "python main.py"
+    ```
+-   **add (a)**: Add an existing project file
+    ```bash
+    rproj add ./DIR
+    ```
+-   **update (u)**: Update info on a project
+    ```bash
+    rproj update NAME --project_name PROJECT_NAME
+    rproj update NAME --github GITHUB
+    rproj update NAME --run RUN
+    rproj update NAME --description ...
+    ```
+-   **delete (d, del, rm, remove)**: Delete a project
+    ```bash
+    rproj delete NAME
+    ```
+-   **list (l, li, all)**: List all projects
+    ```bash
+    rproj list
+    ```
+-   **search (s, find, fetch)**: Search for a project
+    ```bash
+    rproj search NAME
+    ```
+-   **code (vsc)**: Open project in VSC
+    ```bash
+    rproj code NAME
+    ```
+-   **file (explorer)**: Open project in file explorer
+    ```bash
+    rproj file NAME
+    ```
+-   **dir**: Print the project's directory
+    ```bash
+    rproj dir NAME
+    ```
+-   **terminal (ter)**: Open a terminal of the project
+    ```bash
+    rproj terminal NAME
+    rproj terminal NAME -t powershell
+    rproj terminal NAME -type powershell
+    ```
+-   **run (r)**: Run the run_cmd attribute of the project in a new terminal
+    ```bash
+    rproj run NAME
+    rproj run NAME -t powershell
+    ```
 
 ## Contributing
 
