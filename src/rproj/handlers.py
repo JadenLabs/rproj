@@ -12,6 +12,17 @@ def handle_create(args):
     description = " ".join(args.description) if args.description else ""
     RProjFile(args.name, args.directory, description).create()
 
+@check_project_exists
+def handle_update(args):
+    log.info("Updating project...")
+    project = search_project(args.name)
+    if args.project_name:
+        project.update_field("project_name", args.project_name)
+    if args.description:
+        project.update_field("description", " ".join(args.description))
+    if args.github:
+        project.update_field("github", args.github)
+
 @check_directory_exists
 def handle_add(args):
     log.info("Adding project...")

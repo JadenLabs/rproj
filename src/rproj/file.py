@@ -40,6 +40,9 @@ class RProjFile:
         self.github = github
         self.kwargs = kwargs
 
+        if "path" in kwargs:
+            del kwargs["path"]
+
     def create(self):
         # Structure data and load into toml
         data = {
@@ -65,6 +68,33 @@ class RProjFile:
         add_project_to_projects(self)  # update projects.json
 
         return True
+
+    def update_field(self, field: str, value):
+        if hasattr(self, field):
+            setattr(self, field, value)
+            # Update the project file
+            data = {
+                "info": {
+                    "project_name": self.project_name,
+                    "description": self.description,
+                },
+                "file": {
+                    "directory": self.directory,
+                    "path": self.path,
+                },
+                "other": {
+                    "github": self.github,
+                },
+            }
+            data["other"].update(self.kwargs)
+            data_str = toml.dumps(data)
+
+            with open(self.path, "w") as file:
+                file.write(data_str)
+
+            return True
+        else:
+            raise AttributeError(f"{field} is not a valid attribute")
 
     def delete(self):
         if os.path.exists(self.path):
