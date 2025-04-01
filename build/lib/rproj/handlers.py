@@ -1,14 +1,15 @@
 import os
-from rproj.file import RProjFile
-from rproj.info import search_project
-from rproj import log, FILE_EXTENSION
-from rproj.projects import add_project_to_projects, PROJECT_DATA_PATH
-from rproj.launching import launch_vsc, launch_file_explorer, launch_terminal
-from rproj.checks import (
+from rproj.utils.file import RProjFile
+from rproj.utils.info import search_project
+from rproj import FILE_EXTENSION
+from rproj.utils.projects import add_project_to_projects, PROJECT_DATA_PATH
+from rproj.utils.launching import launch_vsc, launch_file_explorer, launch_terminal
+from rproj.utils.checks import (
     check_project_exists,
     check_directory_exists,
     check_project_already_exists,
 )
+from rproj.utils import log
 
 
 @check_project_already_exists
