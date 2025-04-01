@@ -15,6 +15,7 @@ PROJECT_DATA_PATH = get_project_data_path()
 
 
 def reset_project_data_file():
+    """Reset the project data file."""
     with open(PROJECT_DATA_PATH, "w") as file:
         log.warn("Resetting project data file")
         file.write(json.dumps([]))
@@ -22,6 +23,7 @@ def reset_project_data_file():
 
 
 def validate_project_data_file():
+    """Validate the project data file."""
     if not os.path.exists(PROJECT_DATA_PATH):
         log.warn("Project data file not found")
         reset_project_data_file()
@@ -45,6 +47,7 @@ def validate_project_data_file():
 
 
 def add_project_to_projects(project):
+    """Add a project to the projects.json file."""
     # Get a list of all project paths
     with open(PROJECT_DATA_PATH, "r") as file:
         project_paths = json.loads(file.read()) or []
@@ -61,6 +64,7 @@ def add_project_to_projects(project):
 
 
 def remove_project_from_projects(project):
+    """Remove a project from the projects.json file."""
     # Get a list of all project paths
     with open(PROJECT_DATA_PATH, "r") as file:
         project_paths: list = json.loads(file.read())

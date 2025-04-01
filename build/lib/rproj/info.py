@@ -5,6 +5,7 @@ from rproj.projects import PROJECT_DATA_PATH
 
 
 def load_projects():
+    """Load all projects from the projects.json file"""
     with open(PROJECT_DATA_PATH, "r") as file:
         project_paths = json.loads(file.read())
 
@@ -20,12 +21,14 @@ def load_projects():
 
 
 def list_projects():
+    """List all projects in the projects.json file"""
     projects = load_projects()
     for i, project in enumerate(projects):
         print(project.list_view(i))
 
 
 def search_project(name: str = None):
+    """Search for a project by name"""
     if not name:
         raise ValueError("Please provide a name to search for")
 
