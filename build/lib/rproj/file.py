@@ -109,10 +109,14 @@ class RProjFile:
         return f"{self.project_name} @ {self.directory}{description}{github}"
 
     def list_view(self, i: int = None):
-        prefix = f"{i} - " if i is not None else " - "
-        padding = " " * len(prefix)
-        description = (
-            f"\n{padding}[black]desc:[/] {self.description}" if self.description else ""
-        )
-        github = f"\n{padding}[black]github:[/] {self.github}" if self.github else ""
-        return f"{prefix}{self.project_name} @ [yellow]{self.directory}[/]{description}{github}"
+        prefix = f"{i}. " if i is not None else "- "
+        empty_prefix = " " * len(prefix)
+
+        details = []
+        if self.description:
+            details.append(f"- [dim]{self.description}[/]")
+        if self.github:
+            details.append(f"\n{empty_prefix}[dim]github:[/] {self.github}")
+        details_str = "".join(details)
+
+        return f"{prefix}[bright_blue]{self.project_name}[/] @ [yellow]{self.directory}[/] {details_str}".strip()
