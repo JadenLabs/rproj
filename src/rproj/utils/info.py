@@ -1,7 +1,7 @@
 import json
 from rich import print
-from rproj.file import RProjFile
-from rproj.projects import PROJECT_DATA_PATH
+from rproj.utils.file import RProjFile
+from rproj.utils.projects import PROJECT_DATA_PATH
 
 
 def load_projects():

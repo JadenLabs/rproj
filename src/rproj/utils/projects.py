@@ -1,7 +1,7 @@
 import os
 import json
 from appdirs import user_data_dir
-from rproj import log
+from rproj.utils import log
 
 
 def get_project_data_path():

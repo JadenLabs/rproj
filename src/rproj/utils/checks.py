@@ -1,7 +1,7 @@
 import os
 import argparse
-from rproj import log
-from rproj.info import search_project
+from rproj.utils import log
+from rproj.utils.info import search_project
 
 
 # Not needed for now because argparse will handle this - I hope

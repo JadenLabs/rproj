@@ -1,7 +1,7 @@
-from rproj import log
+from rproj.utils import log
 from rproj.cli import get_args
-from rproj.info import list_projects
-from rproj.projects import validate_project_data_file
+from rproj.utils.info import list_projects
+from rproj.utils.projects import validate_project_data_file
 from rproj.handlers import (
     handle_create,
     handle_add,

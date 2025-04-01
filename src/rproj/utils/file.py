@@ -2,7 +2,7 @@ import os
 import toml
 from rich import print
 from rproj import FILE_EXTENSION
-from rproj.projects import add_project_to_projects, remove_project_from_projects
+from rproj.utils.projects import add_project_to_projects, remove_project_from_projects
 
 
 class RProjFile:

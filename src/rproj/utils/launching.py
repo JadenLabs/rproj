@@ -1,7 +1,7 @@
 import os
 import platform
 import subprocess
-from rproj import log
+from rproj.utils import log
 
 
 def launch_vsc(directory: str):
