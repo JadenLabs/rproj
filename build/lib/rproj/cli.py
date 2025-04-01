@@ -87,10 +87,10 @@ def get_args():
         Command(
             "terminal", "Open terminal in project", ["ter"], ["name", "--type", "-t"]
         ),
+        Command("run", "Run the project", ["r"], ["name", "-t"]),
         # TODO add zip
         # TODO add unzip (and unzip add to projects)
         # TODO add git clone support (maybe using pipe?)
-        # TODO add run project
         # TODO add project tree command
     ]
 

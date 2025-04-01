@@ -13,6 +13,7 @@ from rproj.handlers import (
     handle_update,
     handle_dir,
     handle_terminal,
+    handle_run,
 )
 
 COMMAND_HANDLERS = {
@@ -41,6 +42,7 @@ COMMAND_HANDLERS = {
     "debug": handle_debug,
     "terminal": handle_terminal,
     "ter": handle_terminal,
+    "run": handle_run,
 }
 
 
