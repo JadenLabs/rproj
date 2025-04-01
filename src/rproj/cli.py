@@ -60,7 +60,7 @@ def get_args():
             "create",
             "Create a new project",
             ["c", "make"],
-            ["name", "directory", ("--description", {"nargs": argparse.REMAINDER})],
+            ["name", "directory", "--run", "--github", ("--description", {"nargs": argparse.REMAINDER})],
         ),
         Command(
             "update",

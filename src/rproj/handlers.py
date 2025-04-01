@@ -17,7 +17,9 @@ def handle_create(args):
     """Creates a new project with the given name and description."""
     log.info("Creating project...")
     description = " ".join(args.description) if args.description else ""
-    RProjFile(args.name, args.directory, description).create()
+    github = args.github if args.github else ""
+    run_cmd = args.run if args.run else ""
+    RProjFile(args.name, args.directory, description, github, run_cmd).create()
 
 
 @check_project_exists
