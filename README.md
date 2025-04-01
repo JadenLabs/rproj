@@ -58,6 +58,7 @@ Commands:
 -   `file (explorer)`: Open project in file explorer
 -   `dir`: Print the project's directory
 -   `terminal (ter)`: Open a terminal of the project
+-   `run (r)`: Run the run_cmd attribute of the project
 
 ## Contributing
 
