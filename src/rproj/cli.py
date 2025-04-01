@@ -54,6 +54,7 @@ def get_args():
         # TODO add unzip (and unzip add to projects)
         # TODO add git clone support (maybe using pipe?)
         # TODO add run project
+        # TODO add quick cd
     ]
 
     for cmd in commands:
