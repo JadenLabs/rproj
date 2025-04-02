@@ -28,7 +28,7 @@ A simple project management tool because I have a ton of folders of code and nee
     or, to get a specific release:
     ```bash
     pipx install https://github.com/JadenLabs/rproj/archive/refs/tags/{release}.zip
-    pipx install https://github.com/JadenLabs/rproj/archive/refs/tags/v0.2.5.zip
+    pipx install https://github.com/JadenLabs/rproj/archive/refs/tags/v0.2.6.zip
     ```
 
 #### With pip
@@ -102,6 +102,11 @@ Commands:
     ```bash
     rproj run NAME
     rproj run NAME -t powershell
+    ```
+-   **tree (tr)**: Print the file structure of the project
+    ```bash
+    rproj tree NAME
+    rproj tree NAME --ignore file.txt
     ```
 
 ## Contributing

@@ -3,7 +3,7 @@ requires = ["setuptools"]
 
 [project]
 name = "rproj"
-version = "0.2.5"
+version = "0.2.6"
 description = "A simple project management tool"
 license = "MIT"
 dependencies = ["rich", "toml", "argparse", "appdirs"]

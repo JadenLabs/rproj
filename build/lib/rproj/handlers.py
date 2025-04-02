@@ -1,7 +1,9 @@
 import os
+from rproj.utils import log
+from rproj import FILE_EXTENSION
 from rproj.utils.file import RProjFile
 from rproj.utils.info import search_project
-from rproj import FILE_EXTENSION
+from rproj.utils.tree import print_project_structure
 from rproj.utils.projects import add_project_to_projects, PROJECT_DATA_PATH
 from rproj.utils.launching import launch_vsc, launch_file_explorer, launch_terminal
 from rproj.utils.checks import (
@@ -9,7 +11,6 @@ from rproj.utils.checks import (
     check_directory_exists,
     check_project_already_exists,
 )
-from rproj.utils import log
 
 
 @check_project_already_exists
@@ -117,10 +118,28 @@ def handle_run(args):
         command=project.run_cmd,
     )
 
-
 def handle_debug(args):
     """Handles debugging commands."""
     if args.operation == "projects":
         log.info(
             f"Project data at {PROJECT_DATA_PATH}\n      Dir: {PROJECT_DATA_PATH.removesuffix('projects.json')}"
         )
+
+@check_project_exists
+def handle_tree(args):
+    """Prints the project tree."""
+    log.info("Printing project tree...")
+    project = search_project(args.name)
+    if not project or not os.path.isdir(project.directory):
+        log.err("Project directory not found")
+        return
+
+    ignore = []
+    if os.path.exists(".gitignore"):
+        with open(".gitignore", "r") as f:
+            ignore = [line.strip() for line in f if line.strip() and not line.startswith("#")]
+    if args.ignore:
+        ignore.append(*args.ignore)
+    ignore.append(".git")  # Always ignore
+
+    print_project_structure(project.directory, max_depth=5, ignore=ignore)

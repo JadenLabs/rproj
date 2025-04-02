@@ -88,10 +88,10 @@ def get_args():
             "terminal", "Open terminal in project", ["ter"], ["name", "--type", "-t"]
         ),
         Command("run", "Run the project", ["r"], ["name", "-t"]),
+        Command("tree", "Print project tree", ["tr"], ["name", ("--ignore", {"nargs": "+"})]),
         # TODO add zip
         # TODO add unzip (and unzip add to projects)
         # TODO add git clone support (maybe using pipe?)
-        # TODO add project tree command
     ]
 
     # Add each command to the parser
