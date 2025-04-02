@@ -60,7 +60,13 @@ def get_args():
             "create",
             "Create a new project",
             ["c", "make"],
-            ["name", "directory", "--run", "--github", ("--description", {"nargs": argparse.REMAINDER})],
+            [
+                "name",
+                "directory",
+                "--run",
+                "--github",
+                ("--description", {"nargs": argparse.REMAINDER}),
+            ],
         ),
         Command(
             "update",
@@ -88,7 +94,17 @@ def get_args():
             "terminal", "Open terminal in project", ["ter"], ["name", "--type", "-t"]
         ),
         Command("run", "Run the project", ["r"], ["name", "-t"]),
-        Command("tree", "Print project tree", ["tr"], ["name", ("--ignore", {"nargs": "+"})]),
+        Command(
+            "tree",
+            "Print project tree",
+            ["tr"],
+            [
+                "name",
+                ("--ignore", {"nargs": "+"}),
+                ("--max-depth", {"type": int}),
+                ("--use-regex", {"action": "store_true"}),
+            ],
+        ),
         # TODO add zip
         # TODO add unzip (and unzip add to projects)
         # TODO add git clone support (maybe using pipe?)
