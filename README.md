@@ -103,6 +103,11 @@ Commands:
     rproj run NAME
     rproj run NAME -t powershell
     ```
+-   **tree (tr)**: Print the file structure of the project
+    ```bash
+    rproj tree NAME
+    rproj tree NAME --ignore file.txt
+    ```
 
 ## Contributing
 
