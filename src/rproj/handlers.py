@@ -118,12 +118,14 @@ def handle_run(args):
         command=project.run_cmd,
     )
 
+
 def handle_debug(args):
     """Handles debugging commands."""
     if args.operation == "projects":
         log.info(
             f"Project data at {PROJECT_DATA_PATH}\n      Dir: {PROJECT_DATA_PATH.removesuffix('projects.json')}"
         )
+
 
 @check_project_exists
 def handle_tree(args):
@@ -139,7 +141,9 @@ def handle_tree(args):
     ignore = []
     if os.path.exists(git_ignore_path):
         with open(git_ignore_path, "r") as f:
-            ignore = [line.strip() for line in f if line.strip() and not line.startswith("#")]
+            ignore = [
+                line.strip() for line in f if line.strip() and not line.startswith("#")
+            ]
     if args.ignore:
         if isinstance(args.ignore, str):
             ignore.append(args.ignore)
@@ -150,6 +154,6 @@ def handle_tree(args):
             return
     ignore.append(".git")  # Always ignore
 
-    print_project_structure(project.directory, max_depth=5, ignore=ignore, use_regex=args.use_regex)
-    print(args)
-    print(ignore)
+    print_project_structure(
+        project.directory, max_depth=5, ignore=ignore, use_regex=args.use_regex
+    )
