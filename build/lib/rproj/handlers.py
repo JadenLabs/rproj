@@ -134,12 +134,22 @@ def handle_tree(args):
         log.err("Project directory not found")
         return
 
+    git_ignore_path = os.path.join(project.directory, ".gitignore")
+
     ignore = []
-    if os.path.exists(".gitignore"):
-        with open(".gitignore", "r") as f:
+    if os.path.exists(git_ignore_path):
+        with open(git_ignore_path, "r") as f:
             ignore = [line.strip() for line in f if line.strip() and not line.startswith("#")]
     if args.ignore:
-        ignore.append(*args.ignore)
+        if isinstance(args.ignore, str):
+            ignore.append(args.ignore)
+        elif isinstance(args.ignore, list):
+            ignore.extend(args.ignore)
+        else:
+            log.err("Invalid ignore argument type")
+            return
     ignore.append(".git")  # Always ignore
 
-    print_project_structure(project.directory, max_depth=5, ignore=ignore)
+    print_project_structure(project.directory, max_depth=5, ignore=ignore, use_regex=args.use_regex)
+    print(args)
+    print(ignore)
