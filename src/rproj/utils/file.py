@@ -47,6 +47,8 @@ class RProjFile:
                 if isinstance(value, dict):
                     for k, v in value.items():
                         kwargs[k] = v
+                elif isinstance(value, list):
+                    kwargs[key] = value
                 else:
                     kwargs[key] = value
 
@@ -62,6 +64,7 @@ class RProjFile:
         description: str = "",
         github: str = "",
         run_cmd: str = "",
+        notes: list[str] = [],
         **kwargs,
     ) -> None:
         self.project_name = project_name
@@ -70,6 +73,7 @@ class RProjFile:
         self.description = description
         self.github = github
         self.run_cmd = run_cmd
+        self.notes = notes
         self.kwargs = kwargs
 
         # Remove "path" from kwargs if it exists
@@ -165,6 +169,7 @@ class RProjFile:
             "other": {
                 "github": self.github,
                 "run_cmd": self.run_cmd,
+                "notes": self.notes,
             },
         }
         data["other"].update(self.kwargs)
