@@ -160,10 +160,7 @@ class RProjFile:
             "info": {
                 "project_name": self.project_name,
                 "description": self.description,
-            },
-            "file": {
                 "directory": self.directory,
-                "path": self.path,
             },
             "other": {
                 "github": self.github,
