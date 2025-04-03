@@ -105,9 +105,6 @@ def get_args():
                 ("--use-regex", {"action": "store_true"}),
             ],
         ),
-        # TODO add zip
-        # TODO add unzip (and unzip add to projects)
-        # TODO add git clone support (maybe using pipe?)
     ]
 
     # Add each command to the parser
