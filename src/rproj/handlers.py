@@ -2,8 +2,8 @@ import os
 from rproj.utils import log
 from rproj import FILE_EXTENSION
 from rproj.utils.file import RProjFile
-from rproj.utils.info import search_project
 from rproj.utils.tree import print_project_structure
+from rproj.utils.info import search_project, list_projects
 from rproj.utils.projects import add_project_to_projects, PROJECT_DATA_PATH
 from rproj.utils.launching import launch_vsc, launch_file_explorer, launch_terminal
 from rproj.utils.checks import (
@@ -157,3 +157,26 @@ def handle_tree(args):
     print_project_structure(
         project.directory, max_depth=5, ignore=ignore, use_regex=args.use_regex
     )
+
+@check_project_exists
+def handle_tag(args):
+    """Handles tags for the project."""
+    project = search_project(args.name)
+
+    if not any([args.add, args.remove, args.list]):
+        project.print_tags()
+
+    if args.add:
+        for tag in args.add:
+            print(f"Adding tag: {tag}")
+            project.add_tag(tag)
+    if args.remove:
+        for tag in args.remove:
+            print(f"Removing tag: {tag}")
+            project.remove_tag(tag)
+    if args.list:
+        project.print_tags()
+
+def handle_list(args):
+    log.info("Listing projects...")
+    list_projects(args.tags)
