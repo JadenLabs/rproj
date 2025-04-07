@@ -2,8 +2,8 @@ import os
 from rproj.utils import log
 from rproj import FILE_EXTENSION
 from rproj.utils.file import RProjFile
-from rproj.utils.info import search_project
 from rproj.utils.tree import print_project_structure
+from rproj.utils.info import search_project, list_projects
 from rproj.utils.projects import add_project_to_projects, PROJECT_DATA_PATH
 from rproj.utils.launching import launch_vsc, launch_file_explorer, launch_terminal
 from rproj.utils.checks import (
@@ -118,12 +118,14 @@ def handle_run(args):
         command=project.run_cmd,
     )
 
+
 def handle_debug(args):
     """Handles debugging commands."""
     if args.operation == "projects":
         log.info(
             f"Project data at {PROJECT_DATA_PATH}\n      Dir: {PROJECT_DATA_PATH.removesuffix('projects.json')}"
         )
+
 
 @check_project_exists
 def handle_tree(args):
@@ -139,7 +141,9 @@ def handle_tree(args):
     ignore = []
     if os.path.exists(git_ignore_path):
         with open(git_ignore_path, "r") as f:
-            ignore = [line.strip() for line in f if line.strip() and not line.startswith("#")]
+            ignore = [
+                line.strip() for line in f if line.strip() and not line.startswith("#")
+            ]
     if args.ignore:
         if isinstance(args.ignore, str):
             ignore.append(args.ignore)
@@ -150,6 +154,29 @@ def handle_tree(args):
             return
     ignore.append(".git")  # Always ignore
 
-    print_project_structure(project.directory, max_depth=5, ignore=ignore, use_regex=args.use_regex)
-    print(args)
-    print(ignore)
+    print_project_structure(
+        project.directory, max_depth=5, ignore=ignore, use_regex=args.use_regex
+    )
+
+@check_project_exists
+def handle_tag(args):
+    """Handles tags for the project."""
+    project = search_project(args.name)
+
+    if not any([args.add, args.remove, args.list]):
+        project.print_tags()
+
+    if args.add:
+        for tag in args.add:
+            print(f"Adding tag: {tag}")
+            project.add_tag(tag)
+    if args.remove:
+        for tag in args.remove:
+            print(f"Removing tag: {tag}")
+            project.remove_tag(tag)
+    if args.list:
+        project.print_tags()
+
+def handle_list(args):
+    log.info("Listing projects...")
+    list_projects(args.tags)

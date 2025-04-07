@@ -82,7 +82,9 @@ def get_args():
         ),
         Command("add", "Add an existing project file", ["a"], ["directory"]),
         Command("delete", "Delete a project", ["d", "del", "rm", "remove"], ["name"]),
-        Command("list", "List all projects", ["l", "li", "all"], []),
+        Command(
+            "list", "List all projects", ["l", "li", "all"], [("--tags", {"nargs": "+"})]
+        ),
         Command(
             "search", "Search for a project", ["s", "find", "fetch", "info"], ["name"]
         ),
@@ -105,9 +107,17 @@ def get_args():
                 ("--use-regex", {"action": "store_true"}),
             ],
         ),
-        # TODO add zip
-        # TODO add unzip (and unzip add to projects)
-        # TODO add git clone support (maybe using pipe?)
+        Command(
+            "tag",
+            "Add or manage tags for a project",
+            ["t"],
+            [
+                "name",
+                ("--add", {"nargs": "+"}),
+                ("--remove", {"nargs": "+"}),
+                ("--list", {"action": "store_true"}),
+            ],
+        ),
     ]
 
     # Add each command to the parser

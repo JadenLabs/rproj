@@ -47,6 +47,8 @@ class RProjFile:
                 if isinstance(value, dict):
                     for k, v in value.items():
                         kwargs[k] = v
+                elif isinstance(value, list):
+                    kwargs[key] = value
                 else:
                     kwargs[key] = value
 
@@ -62,6 +64,8 @@ class RProjFile:
         description: str = "",
         github: str = "",
         run_cmd: str = "",
+        notes: list[str] = [],
+        tags: list[str] = [],
         **kwargs,
     ) -> None:
         self.project_name = project_name
@@ -70,6 +74,8 @@ class RProjFile:
         self.description = description
         self.github = github
         self.run_cmd = run_cmd
+        self.notes = notes
+        self.tags = tags
         self.kwargs = kwargs
 
         # Remove "path" from kwargs if it exists
@@ -124,6 +130,28 @@ class RProjFile:
             raise FileNotFoundError("File not found")
         remove_project_from_projects(self)  # update projects.json
 
+    def add_tag(self, tag: str):
+        """Adds a tag to the project file."""
+        if tag not in self.tags:
+            self.tags.append(tag)
+            self.update_field("tags", self.tags)
+
+    def remove_tag(self, tag: str):
+        """Removes a tag from the project file."""
+        if tag in self.tags:
+            self.tags.remove(tag)
+            self.update_field("tags", self.tags)
+        else:
+            print(f"Tag '{tag}' not found in project tags.")
+
+    def print_tags(self) -> str:
+        """Prints the tags of the project."""
+        if self.tags:
+            tags_str = ", ".join(self.tags)
+            print(f"[bright_blue]Tags:[/] {tags_str}")
+        else:
+            print(f"[bright_blue]Tags:[/] None")
+
     def print_details(self):
         """Prints formatted details of the project."""
         lines = [
@@ -160,14 +188,13 @@ class RProjFile:
             "info": {
                 "project_name": self.project_name,
                 "description": self.description,
-            },
-            "file": {
                 "directory": self.directory,
-                "path": self.path,
+                "tags": self.tags,
             },
             "other": {
                 "github": self.github,
                 "run_cmd": self.run_cmd,
+                "notes": self.notes,
             },
         }
         data["other"].update(self.kwargs)
