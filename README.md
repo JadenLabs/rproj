@@ -107,6 +107,8 @@ Commands:
     ```bash
     rproj tree NAME
     rproj tree NAME --ignore file.txt
+    rproj tree NAME --ignore file.txt --max-depth 3
+    rproj tree NAME --ignore .txt$ --use-regex
     ```
 
 ## Contributing
