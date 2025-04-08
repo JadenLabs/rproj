@@ -1,7 +1,7 @@
 import os
 import toml
 from rich import print
-from rproj import FILE_EXTENSION
+from rproj import FILE_EXTENSION, RPROJ_VERSION
 from rproj.utils.projects import add_project_to_projects, remove_project_from_projects
 
 
@@ -66,6 +66,7 @@ class RProjFile:
         run_cmd: str = "",
         notes: list[str] = [],
         tags: list[str] = [],
+        rproj_version: str = RPROJ_VERSION,
         **kwargs,
     ) -> None:
         self.project_name = project_name
@@ -76,6 +77,7 @@ class RProjFile:
         self.run_cmd = run_cmd
         self.notes = notes
         self.tags = tags
+        self.rproj_version = rproj_version
         self.kwargs = kwargs
 
         # Remove "path" from kwargs if it exists
@@ -152,6 +154,35 @@ class RProjFile:
         else:
             print(f"[bright_blue]Tags:[/] None")
 
+    def add_note(self, note: str):
+        """Adds a note to the project file."""
+        if note not in self.notes:
+            self.notes.append(note)
+            self.update_field("notes", self.notes)
+        else:
+            print(f"Note '{note}' already exists in project notes.")
+
+    def remove_notes(self, indexes: list[int]):
+        """Removes a note from the project file."""
+        # * NOTE: index starts at 1 for the user, but 0 for the list
+        for index in indexes:
+            if index - 1 < len(self.notes):
+                self.notes[index - 1] = None  # Mark for deletion
+            else:
+                print(f"Note at index {index} not found in project notes.")
+
+        new_notes = [note for note in self.notes if note is not None]
+        self.update_field("notes", new_notes)
+
+    def print_notes(self):
+        """Prints the notes of the project."""
+        if self.notes:
+            note_lines = [f"{i}. {note}" for i, note in enumerate(self.notes, 1)]
+            notes_str = "\n".join(note_lines)
+            print(f"[bright_blue]Notes:[/]\n{notes_str}")
+        else:
+            print(f"[bright_blue]Notes:[/] None")
+
     def print_details(self):
         """Prints formatted details of the project."""
         lines = [
@@ -184,17 +215,20 @@ class RProjFile:
 
     def as_dict(self):
         """Converts the object attributes into a dictionary format."""
+        # Given how the data is loaded, the categories of the data dont matter
+        # as long as the keys are the same as the class attributes
         data = {
             "info": {
                 "project_name": self.project_name,
                 "description": self.description,
                 "directory": self.directory,
                 "tags": self.tags,
+                "notes": self.notes,
             },
             "other": {
                 "github": self.github,
                 "run_cmd": self.run_cmd,
-                "notes": self.notes,
+                "rproj_version": self.rproj_version,
             },
         }
         data["other"].update(self.kwargs)

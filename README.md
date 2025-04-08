@@ -28,7 +28,7 @@ A simple project management tool because I have a ton of folders of code and nee
     or, to get a specific release:
     ```bash
     pipx install https://github.com/JadenLabs/rproj/archive/refs/tags/{release}.zip
-    pipx install https://github.com/JadenLabs/rproj/archive/refs/tags/v0.3.0.zip
+    pipx install https://github.com/JadenLabs/rproj/archive/refs/tags/v0.4.0.zip
     ```
 
 #### With pip

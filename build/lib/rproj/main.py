@@ -16,6 +16,7 @@ from rproj.handlers import (
     handle_tree,
     handle_tag,
     handle_list,
+    handle_note,
 )
 
 COMMAND_HANDLERS = {
@@ -54,6 +55,8 @@ COMMAND_HANDLERS = {
     "l": handle_list,
     "li": handle_list,
     "all": handle_list,
+    "note": handle_note,
+    "n": handle_note,
 }
 
 
