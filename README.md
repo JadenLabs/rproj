@@ -75,6 +75,7 @@ Commands:
 -   **list (l, li, all)**: List all projects
     ```bash
     rproj list
+    rproj list --tags TAG1 TAG2
     ```
 -   **search (s, find, fetch)**: Search for a project
     ```bash
@@ -107,8 +108,24 @@ Commands:
     ```bash
     rproj tree NAME
     rproj tree NAME --ignore file.txt
+    rproj tree NAME --ignore file1.txt file2.txt
     rproj tree NAME --ignore file.txt --max-depth 3
     rproj tree NAME --ignore .txt$ --use-regex
+    ```
+-   **tag (t)**: Add, remove, or list project tags
+    ```bash
+    rproj tag NAME --add TAG
+    rproj tag NAME --add TAG1 TAG2
+    rproj tag NAME --remove TAG
+    rproj tag NAME --remove TAG1 TAG2
+    rproj tag NAME --list
+    ```
+-   **note (n)**: Add, remove, or list project notes
+    ```bash
+    rproj note NAME --add A GOOD NOTE
+    rproj note NAME --remove NOTE_INDEX # int: found using --list
+    rproj note NAME --remove i j
+    rproj note NAME --list
     ```
 
 ## Contributing
