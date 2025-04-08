@@ -158,6 +158,7 @@ def handle_tree(args):
         project.directory, max_depth=5, ignore=ignore, use_regex=args.use_regex
     )
 
+
 @check_project_exists
 def handle_tag(args):
     """Handles tags for the project."""
@@ -177,6 +178,28 @@ def handle_tag(args):
     if args.list:
         project.print_tags()
 
+
 def handle_list(args):
     log.info("Listing projects...")
     list_projects(args.tags)
+
+
+@check_project_exists
+def handle_note(args):
+    """Handles notes for the project."""
+    project = search_project(args.name)
+
+    if not any([args.add, args.remove, args.list]):
+        project.print_notes()
+
+    if args.add:
+        note = " ".join(args.add)
+        print(f"Adding note: {note}")
+        project.add_note(note)
+    if args.remove:
+        print(
+            f"Removing notes with indexes: {', '.join((str(i) for i in args.remove))}"
+        )
+        project.remove_notes(args.remove)
+    if args.list:
+        project.print_notes()

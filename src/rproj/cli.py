@@ -83,7 +83,10 @@ def get_args():
         Command("add", "Add an existing project file", ["a"], ["directory"]),
         Command("delete", "Delete a project", ["d", "del", "rm", "remove"], ["name"]),
         Command(
-            "list", "List all projects", ["l", "li", "all"], [("--tags", {"nargs": "+"})]
+            "list",
+            "List all projects",
+            ["l", "li", "all"],
+            [("--tags", {"nargs": "+"})],
         ),
         Command(
             "search", "Search for a project", ["s", "find", "fetch", "info"], ["name"]
@@ -115,6 +118,17 @@ def get_args():
                 "name",
                 ("--add", {"nargs": "+"}),
                 ("--remove", {"nargs": "+"}),
+                ("--list", {"action": "store_true"}),
+            ],
+        ),
+        Command(
+            "note",
+            "Add or remove notes from a project",
+            ["n"],
+            [
+                "name",
+                ("--add", {"nargs": "+"}),
+                ("--remove", {"type": int, "nargs": "+"}),
                 ("--list", {"action": "store_true"}),
             ],
         ),
