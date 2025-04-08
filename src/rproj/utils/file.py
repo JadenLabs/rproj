@@ -174,12 +174,17 @@ class RProjFile:
         new_notes = [note for note in self.notes if note is not None]
         self.update_field("notes", new_notes)
 
+    def notes_as_str(self, indent: str = 0) -> str:
+        """Returns the notes of the project as a formatted string."""
+        if self.notes:
+            note_lines = [f"{' ' * indent}{i}. {note}" for i, note in enumerate(self.notes, 1)]
+            return "\n".join(note_lines)
+        return None
+
     def print_notes(self):
         """Prints the notes of the project."""
         if self.notes:
-            note_lines = [f"{i}. {note}" for i, note in enumerate(self.notes, 1)]
-            notes_str = "\n".join(note_lines)
-            print(f"[bright_blue]Notes:[/]\n{notes_str}")
+            print(f"[bright_blue]Notes:[/]\n{self.notes_as_str()}")
         else:
             print(f"[bright_blue]Notes:[/] None")
 
@@ -192,8 +197,9 @@ class RProjFile:
                 if self.description
                 else ""
             ),
+            f"[bright_blue]Tags:[/] {', '.join(self.tags)}" if self.tags else "",
+            f"[bright_blue]Notes:[/] \n{self.notes_as_str(2)}" if self.notes else "",
             f"[bright_blue]Directory:[/] [yellow]{self.directory}[/]",
-            f"[bright_blue]Path:[/] [yellow]{self.path}[/]",
             f"[bright_blue]GitHub:[/] {self.github}" if self.github else "",
             f"[bright_blue]Run Command:[/] {self.run_cmd}" if self.run_cmd else "",
         ]
