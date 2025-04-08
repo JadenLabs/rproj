@@ -20,10 +20,12 @@ def load_projects():
     return projects
 
 
-def list_projects():
+def list_projects(tags: list[str] = None):
     """List all projects in the projects.json file"""
     projects = load_projects()
     for i, project in enumerate(projects, start=1):
+        if tags and not any(tag in project.tags for tag in tags):
+            continue
         print(project.list_view(i))
 
 

@@ -1,6 +1,5 @@
 from rproj.utils import log
 from rproj.cli import get_args
-from rproj.utils.info import list_projects
 from rproj.utils.projects import validate_project_data_file
 from rproj.handlers import (
     handle_create,
@@ -15,6 +14,8 @@ from rproj.handlers import (
     handle_terminal,
     handle_run,
     handle_tree,
+    handle_tag,
+    handle_list,
 )
 
 COMMAND_HANDLERS = {
@@ -47,6 +48,12 @@ COMMAND_HANDLERS = {
     "r": handle_run,
     "tree": handle_tree,
     "tr": handle_tree,
+    "tag": handle_tag,
+    "t": handle_tag,
+    "list": handle_list,
+    "l": handle_list,
+    "li": handle_list,
+    "all": handle_list,
 }
 
 
@@ -54,9 +61,6 @@ def handle_args(args):
     """Handle command line arguments"""
     if args.command in COMMAND_HANDLERS:
         COMMAND_HANDLERS[args.command](args)
-    elif args.command in ["list", "l", "li", "all"]:
-        log.info("Listing projects...")
-        list_projects()
 
 
 def main():
